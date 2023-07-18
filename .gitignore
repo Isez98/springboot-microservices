@@ -17,3 +17,6 @@ buildNumber.properties
 .classpath
 **/.idea/workspace.xml
 **/.idea/tasks.xml
+
+# Application Properties
+**/application.properties
