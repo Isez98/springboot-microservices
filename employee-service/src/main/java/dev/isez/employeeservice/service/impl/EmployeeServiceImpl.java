@@ -2,6 +2,7 @@ package dev.isez.employeeservice.service.impl;
 
 import dev.isez.employeeservice.dto.EmployeeDto;
 import dev.isez.employeeservice.entity.Employee;
+import dev.isez.employeeservice.exception.ResourceNotFoundException;
 import dev.isez.employeeservice.mapper.EmployeeMapper;
 import dev.isez.employeeservice.repository.EmployeeRepository;
 import dev.isez.employeeservice.service.EmployeeService;
@@ -26,7 +27,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).get();
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(
+                () -> new ResourceNotFoundException("Employee", "id", employeeId)
+        );
 
         EmployeeDto employeeDto = EmployeeMapper.MAPPER.mapToEmployeeDto(employee);
 

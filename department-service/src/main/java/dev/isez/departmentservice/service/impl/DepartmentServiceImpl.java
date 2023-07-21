@@ -2,6 +2,7 @@ package dev.isez.departmentservice.service.impl;
 
 import dev.isez.departmentservice.dto.DepartmentDto;
 import dev.isez.departmentservice.entity.Department;
+import dev.isez.departmentservice.exception.ResourceNotFoundException;
 import dev.isez.departmentservice.mapper.DepartmentMapper;
 import dev.isez.departmentservice.repository.DepartmentRepository;
 import dev.isez.departmentservice.service.DepartmentService;
@@ -15,7 +16,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto saveDepartment(DepartmentDto departmentDto) {
-        // convert department dto to department jpa entity
         Department department = DepartmentMapper.MAPPER.mapToDepartment(departmentDto);
 
         Department savedDepartment = departmentRepository.save(department);
@@ -27,7 +27,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto getDepartmentByCode(String departmentCode) {
-        Department department = departmentRepository.findByDepartmentCode(departmentCode);
+        Department department = departmentRepository.findByDepartmentCode(departmentCode).orElseThrow(
+                () -> new ResourceNotFoundException("Department", "department code", departmentCode)
+        );
 
         DepartmentDto departmentDto = DepartmentMapper.MAPPER.mapToDepartmentDto(department);
 
