@@ -1,5 +1,6 @@
 package dev.isez.employeeservice.controller;
 
+import dev.isez.employeeservice.dto.APIResponseDto;
 import dev.isez.employeeservice.dto.EmployeeDto;
 import dev.isez.employeeservice.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -22,21 +23,9 @@ public class EmployeeController {
 
     // Build get employee by Id REST API
     @GetMapping("{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById (@PathVariable("id") Long employeeId){
-        EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
-        return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+    public ResponseEntity<APIResponseDto> getEmployeeById (@PathVariable("id") Long employeeId){
+        APIResponseDto apiResponseDto = employeeService.getEmployeeById(employeeId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
-//    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
-//                                                                        WebRequest webRequest){
-//        ErrorDetails errorDetails = new ErrorDetails(
-//                LocalDateTime.now(),
-//                exception.getMessage(),
-//                webRequest.getDescription(false),
-//                "EMPLOYEE_NOT_FOUND"
-//        );
-//
-//        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-//    }
 }
